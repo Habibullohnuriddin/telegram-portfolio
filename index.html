@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habibulloh Nuriddin | Creative Links</title>
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/all.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 80%, #667eea 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #764ba2 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #f093fb 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+        }
+
+        .floating-orbs {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            filter: blur(1px);
+            opacity: 0.4;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .profile-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff9a56, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+            overflow: hidden;
+
+        }
+
+        .profile-image img {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            width: 140px;
+        }
+
+        .profile-ring {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c) border-box;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: rotate 4s linear infinite;
+            top: -10px;
+            left: -10px;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .profile-particles {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            top: -30px;
+            left: -30px;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .profile-name {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(45deg, #fff, #f093fb, #667eea);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .profile-bio {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .profile-location {
+            font-size: 16px;
+            opacity: 0.7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .link-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 22px 28px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .link-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .link-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        .link-item:hover::after {
+            opacity: 0.1;
+        }
+
+        .link-item:hover::before {
+            left: 100%;
+        }
+
+        .link-icon-wrapper {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .link-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .link-content {
+            flex: 1;
+        }
+
+        .link-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .link-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: 400;
+        }
+
+        .external-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover .external-icon {
+            opacity: 1;
+            transform: translateX(5px);
+        }
+
+        .link-item:hover .link-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* Individual link styles */
+        .instagram {
+            --gradient: linear-gradient(45deg, #f09433, #bc1888);
+        }
+
+        .github {
+            --gradient: linear-gradient(45deg, #333, #6e5494);
+        }
+
+        .figma {
+            --gradient: linear-gradient(45deg, #f24e1e, #ff7262);
+        }
+
+        .quran {
+            --gradient: linear-gradient(45deg, #2ecc71, #27ae60);
+        }
+
+        .sherlar {
+            --gradient: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+
+        .ustoz {
+            --gradient: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+        }
+
+        .footer-text {
+            font-size: 16px;
+            opacity: 0.6;
+            margin-top: 20px;
+        }
+
+        /* Cursor trail effect */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(45deg, #667eea, #f093fb);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .profile-name {
+                font-size: 28px;
+            }
+
+            .link-item {
+                padding: 20px 24px;
+                gap: 16px;
+            }
+
+            .link-icon-wrapper {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        /* Hide scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="bg-animation"></div>
+    <div class="floating-orbs"></div>
+
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-wrapper">
+                <div class="profile-ring"></div>
+                <div class="profile-particles"></div>
+                <div class="profile-image" id="profileImage">
+                    <img src="./assets/2025-09-20 19.08.10.jpg" alt="">
+                </div>
+            </div>
+            <h1 class="profile-name">Habibulloh Nuriddin</h1>
+            <p class="profile-bio">Frontend Developer & UI/UX Designer</p>
+            <div class="profile-location">
+                <i class="fa-regular fa-location-dot"></i>
+                <span>Tashkent, Uzbekistan</span>
+            </div>
+        </div>
+
+        <div class="links-container">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/habibullohnuriddin" target="_blank" class="link-item instagram">
+                <div class="link-icon-wrapper">
+                    <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">Instagram</div>
+                    <div class="link-subtitle">@habibullohnuriddin</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+
+            <!-- GitHub -->
+            <a href="https://github.com/Habibullohnuriddin/" target="_blank" class="link-item github">
+                <div class="link-icon-wrapper">
+                    <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
+                    </svg>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">GitHub</div>
+                    <div class="link-subtitle">Portfolio & Code</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+
+            <!-- Figma -->
+            <a href="https://www.figma.com/@habibulloh" target="_blank" class="link-item figma">
+                <div class="link-icon-wrapper">
+                    <i class="fa-brands fa-figma "></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">Figma</div>
+                    <div class="link-subtitle">UI/UX Designs</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+
+            <!-- Quran -->
+            <a href="https://t.me/quranoy" target="_blank" class="link-item quran">
+                <div class="link-icon-wrapper">
+                    <i class="fa-regular fa-book-quran"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">Quran kanali</div>
+                    <div class="link-subtitle">@quranoy</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+
+            <!-- Sherlar -->
+            <a href="https://t.me/sherlarlink" target="_blank" class="link-item sherlar">
+                <div class="link-icon-wrapper">
+                    <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M9.78,18.65L10.06,14.42L17.74,7.5C18.08,7.19 17.67,7.04 17.22,7.31L7.74,13.3L3.64,12C2.76,11.75 2.75,11.14 3.84,10.7L19.81,4.54C20.54,4.21 21.24,4.72 20.96,5.84L18.24,18.65C18.05,19.56 17.5,19.78 16.74,19.36L12.6,16.3L10.61,18.23C10.38,18.46 10.19,18.65 9.78,18.65Z" />
+                    </svg>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">Sherlar kanali</div>
+                    <div class="link-subtitle">@sherlarlink</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+
+            <!-- Ustoz -->
+            <a href="https://t.me/ustozimnurim" target="_blank" class="link-item ustoz">
+                <div class="link-icon-wrapper">
+                    <i class="fa-regular fa-rectangle-terminal"></i>
+                </div>
+                <div class="link-content">
+                    <div class="link-title">Ustozim nurim</div>
+                    <div class="link-subtitle">@ustozimnurim</div>
+                </div>
+                <svg class="external-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V12H19V19Z" />
+                </svg>
+            </a>
+        </div>
+
+
+    </div>
+
+    <script>
+        // Initialize GSAP
+        gsap.registerPlugin();
+
+        // Create floating orbs
+        function createFloatingOrbs() {
+            const orbsContainer = document.querySelector('.floating-orbs');
+            for (let i = 0; i < 8; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'orb';
+                const size = gsap.utils.random(20, 80);
+                orb.style.width = size + 'px';
+                orb.style.height = size + 'px';
+                orb.style.left = gsap.utils.random(0, 100) + '%';
+                orb.style.top = gsap.utils.random(0, 100) + '%';
+                orbsContainer.appendChild(orb);
+
+                // Animate orbs
+                gsap.to(orb, {
+                    x: gsap.utils.random(-200, 200),
+                    y: gsap.utils.random(-200, 200),
+                    duration: gsap.utils.random(15, 25),
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+
+                gsap.to(orb, {
+                    scale: gsap.utils.random(0.5, 1.5),
+                    duration: gsap.utils.random(3, 6),
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+
+        // Create particles around profile image
+        function createProfileParticles() {
+            const particlesContainer = document.querySelector('.profile-particles');
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particlesContainer.appendChild(particle);
+
+                const angle = (i / 12) * 360;
+                const radius = 80;
+                const x = Math.cos(angle * Math.PI / 180) * radius;
+                const y = Math.sin(angle * Math.PI / 180) * radius;
+
+                gsap.set(particle, {
+                    x: x,
+                    y: y,
+                });
+
+                // Animate particles
+                gsap.to(particle, {
+                    opacity: 1,
+                    scale: gsap.utils.random(0.5, 1.5),
+                    duration: gsap.utils.random(1, 2),
+                    repeat: -1,
+                    yoyo: true,
+                    delay: i * 0.1,
+                    ease: "sine.inOut"
+                });
+
+                gsap.to(particle, {
+                    rotation: 360,
+                    duration: 10,
+                    repeat: -1,
+                    ease: "none"
+                });
+            }
+        }
+
+        // Cursor trail effect
+        let cursorDots = [];
+        function createCursorTrail() {
+            for (let i = 0; i < 5; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'cursor-dot';
+                document.body.appendChild(dot);
+                cursorDots.push(dot);
+            }
+        }
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursorTrail() {
+            cursorDots.forEach((dot, index) => {
+                gsap.to(dot, {
+                    x: mouseX,
+                    y: mouseY,
+                    duration: 0.3 + index * 0.1,
+                    opacity: 1 - index * 0.2,
+                    scale: 1 - index * 0.15,
+                    ease: "power2.out"
+                });
+            });
+            requestAnimationFrame(animateCursorTrail);
+        }
+
+        // Main animation timeline
+        function initAnimations() {
+            const tl = gsap.timeline();
+
+            // Animate profile section
+            tl.from('.profile-image', {
+                scale: 0,
+                rotation: 180,
+                duration: 1.2,
+                ease: "elastic.out(1, 0.5)"
+            })
+                .from('.profile-name', {
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    ease: "power3.out"
+                }, "-=0.5")
+                .from('.profile-bio, .profile-location', {
+                    y: 30,
+                    opacity: 0,
+                    duration: 0.6,
+                    stagger: 0.2,
+                    ease: "power2.out"
+                }, "-=0.3");
+
+            // Animate links with stagger
+            gsap.to('.link-item', {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                delay: 0.5
+            });
+
+            // Animate footer
+            gsap.from('.footer', {
+                y: 30,
+                opacity: 0,
+                duration: 0.8,
+                delay: 1.5,
+                ease: "power2.out"
+            });
+        }
+
+        // Profile image click effect
+        document.getElementById('profileImage').addEventListener('click', () => {
+            gsap.to('.profile-image', {
+                scale: 1.2,
+                rotation: 360,
+                duration: 0.6,
+                ease: "back.out(1.7)"
+            });
+
+            gsap.to('.profile-image', {
+                scale: 1,
+                rotation: 0,
+                duration: 0.6,
+                delay: 0.6,
+                ease: "power2.out"
+            });
+
+            // Burst particles effect
+            gsap.to('.particle', {
+                scale: 2,
+                opacity: 1,
+                duration: 0.3,
+                stagger: 0.05,
+                ease: "power2.out"
+            });
+
+            gsap.to('.particle', {
+                scale: 0.5,
+                opacity: 0.3,
+                duration: 0.5,
+                delay: 0.3,
+                stagger: 0.05,
+                ease: "power2.out"
+            });
+        });
+
+        // Link hover animations
+        document.querySelectorAll('.link-item').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, {
+                    scale: 1.05,
+                    y: -10,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+
+                gsap.to(link.querySelector('.link-icon-wrapper'), {
+                    scale: 1.2,
+                    rotation: 10,
+                    duration: 0.4,
+                    ease: "back.out(1.7)"
+                });
+
+                gsap.to(link.querySelector('.link-title'), {
+                    x: 10,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, {
+                    scale: 1,
+                    y: 0,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+
+                gsap.to(link.querySelector('.link-icon-wrapper'), {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+
+                gsap.to(link.querySelector('.link-title'), {
+                    x: 0,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            });
+
+            link.addEventListener('click', () => {
+                gsap.to(link, {
+                    scale: 0.95,
+                    duration: 0.1,
+                    ease: "power2.out",
+                    yoyo: true,
+                    repeat: 1
+                });
+            });
+        });
+
+        // Text typing effect for name
+        function typeWriter() {
+            const nameElement = document.querySelector('.profile-name');
+            const originalText = nameElement.textContent;
+            nameElement.textContent = '';
+
+            let i = 0;
+            function type() {
+                if (i < originalText.length) {
+                    nameElement.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                }
+            }
+
+            setTimeout(type, 1000);
+        }
+
+        // Parallax scroll effect
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.5;
+
+            gsap.to('.floating-orbs', {
+                y: -parallax,
+                duration: 0.1,
+                ease: "none"
+            });
+
+            gsap.to('.profile-ring', {
+                rotation: scrolled * 0.5,
+                duration: 0.1,
+                ease: "none"
+            });
+        });
+
+        // Background gradient animation
+        function animateBackground() {
+            gsap.to('.bg-animation', {
+                background: `
+                    radial-gradient(circle at ${gsap.utils.random(10, 90)}% ${gsap.utils.random(10, 90)}%, #667eea 0%, transparent 50%),
+                    radial-gradient(circle at ${gsap.utils.random(10, 90)}% ${gsap.utils.random(10, 90)}%, #764ba2 0%, transparent 50%),
+                    radial-gradient(circle at ${gsap.utils.random(10, 90)}% ${gsap.utils.random(10, 90)}%, #f093fb 0%, transparent 50%),
+                    linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)
+                `,
+                duration: 5,
+                ease: "sine.inOut",
+                onComplete: animateBackground
+            });
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            createFloatingOrbs();
+            createProfileParticles();
+            createCursorTrail();
+            animateCursorTrail();
+            initAnimations();
+            // typeWriter();
+            setTimeout(animateBackground, 2000);
+        });
+
+        // Add some easter eggs
+        let clickCount = 0;
+        document.addEventListener('click', () => {
+            clickCount++;
+            if (clickCount === 10) {
+                gsap.to('.container', {
+                    scale: 1.1,
+                    duration: 0.5,
+                    ease: "elastic.out(1, 0.3)",
+                    yoyo: true,
+                    repeat: 1
+                });
+
+                // Create explosion effect
+                for (let i = 0; i < 20; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.position = 'fixed';
+                    particle.style.width = '4px';
+                    particle.style.height = '4px';
+                    particle.style.background = `hsl(${gsap.utils.random(0, 360)}, 100%, 50%)`;
+                    particle.style.borderRadius = '50%';
+                    particle.style.pointerEvents = 'none';
+                    particle.style.zIndex = '1000';
+                    particle.style.left = '50%';
+                    particle.style.top = '50%';
+                    document.body.appendChild(particle);
+
+                    gsap.to(particle, {
+                        x: gsap.utils.random(-200, 200),
+                        y: gsap.utils.random(-200, 200),
+                        opacity: 0,
+                        scale: 0,
+                        duration: 1,
+                        ease: "power2.out",
+                        onComplete: () => particle.remove()
+                    });
+                }
+                clickCount = 0;
+            }
+        });
+
+        // Performance optimization
+        gsap.set('.link-item', {
+            willChange: 'transform',
+            backfaceVisibility: 'hidden'
+        });
+
+        gsap.set('.profile-image', {
+            willChange: 'transform',
+            backfaceVisibility: 'hidden'
+        });
+
+        // Debug mode (press 'D' key)
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'd') {
+                const debugInfo = document.createElement('div');
+                debugInfo.style.position = 'fixed';
+                debugInfo.style.top = '10px';
+                debugInfo.style.right = '10px';
+                debugInfo.style.background = 'rgba(0,0,0,0.8)';
+                debugInfo.style.color = 'white';
+                debugInfo.style.padding = '10px';
+                debugInfo.style.borderRadius = '5px';
+                debugInfo.style.fontSize = '12px';
+                debugInfo.style.zIndex = '9999';
+                debugInfo.innerHTML = `
+                    <strong>Debug Info:</strong><br>
+                    Screen: ${window.innerWidth}x${window.innerHeight}<br>
+                    Mouse: ${mouseX}, ${mouseY}<br>
+                    Clicks: ${clickCount}<br>
+                    GSAP Version: ${gsap.version}
+                `;
+                document.body.appendChild(debugInfo);
+
+                setTimeout(() => debugInfo.remove(), 3000);
+            }
+        });
+
+        console.log('🎨 Creative Bio Page Loaded with GSAP!');
+        console.log('💡 Try clicking the profile image!');
+        console.log('🎯 Click anywhere 10 times for a surprise!');
+        console.log('🔧 Press "D" for debug info');
+    </script>
+</body>
+
+</html>
