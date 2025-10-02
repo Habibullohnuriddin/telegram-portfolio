@@ -1,0 +1,424 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+    background: #0a0a0a;
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Animated Background */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 20% 80%, #667eea 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, #764ba2 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, #f093fb 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+.floating-orbs {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+    filter: blur(1px);
+    opacity: 0.4;
+}
+
+.container {
+    max-width: 420px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-section {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.profile-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #ff9a56, #ff6b6b, #4ecdc4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+    overflow: hidden;
+}
+
+.profile-image img {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 140px;
+}
+
+.profile-ring {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c) border-box;
+    mask:
+        linear-gradient(#fff 0 0) padding-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    animation: rotate 4s linear infinite;
+    top: -10px;
+    left: -10px;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.profile-particles {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: -30px;
+    left: -30px;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.profile-name {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(45deg, #fff, #f093fb, #667eea);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.profile-bio {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.profile-location {
+    font-size: 16px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.link-item {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 22px 28px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translateY(50px);
+    opacity: 0;
+}
+
+.link-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.link-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.link-item:hover::after {
+    opacity: 0.1;
+}
+
+.link-item:hover::before {
+    left: 100%;
+}
+
+.link-icon-wrapper {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.link-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.link-content {
+    flex: 1;
+}
+
+.link-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.link-subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.external-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.link-item:hover .external-icon {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.link-item:hover .link-icon {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* Individual link styles */
+.instagram {
+    --gradient: linear-gradient(45deg, #f09433, #bc1888);
+}
+
+.github {
+    --gradient: linear-gradient(45deg, #333, #6e5494);
+}
+
+.figma {
+    --gradient: linear-gradient(45deg, #f24e1e, #ff7262);
+}
+
+.quran {
+    --gradient: linear-gradient(45deg, #2ecc71, #27ae60);
+}
+
+.sherlar {
+    --gradient: linear-gradient(45deg, #9b59b6, #8e44ad);
+}
+
+.ustoz {
+    --gradient: linear-gradient(45deg, #e74c3c, #c0392b);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 30px;
+    position: relative;
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+}
+
+.footer-text {
+    font-size: 16px;
+    opacity: 0.6;
+    margin-top: 20px;
+}
+
+/* Cursor trail effect */
+/* cursor trail: put this in your <style> */
+/* ==== Cursor Trail ==== */
+
+/* cursor effect */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    background: radial-gradient(circle at center, #d70ec3e6, #ff34ae);
+    box-shadow:
+        0 0 8px #ff44fff8,
+        0 0 16px #ff44ff99;
+    transform: translate(-50%, -50%) scale(1);
+    transition:
+        transform 0.15s ease-out,
+        width 0.15s ease-out,
+        height 0.15s ease-out;
+    mix-blend-mode: difference;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .profile-name {
+        font-size: 28px;
+    }
+
+    .link-item {
+        padding: 20px 24px;
+        gap: 16px;
+    }
+
+    .link-icon-wrapper {
+        width: 45px;
+        height: 45px;
+    }
+}
+
+/* Hide scrollbar but keep functionality */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #764ba2, #667eea);
+}
+
+/* saluyt animatsiya */
+.firework {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff, transparent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(8);
+        opacity: 0;
+    }
+}
